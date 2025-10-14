@@ -8,6 +8,7 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<ProtectedRoute Component={Todo} />} />
+                <Route path="/:id" element={<ProtectedRoute Component={Todo} />} />
             </Routes>
         </BrowserRouter>
     )

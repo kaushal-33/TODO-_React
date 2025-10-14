@@ -1,25 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../features/todoSlice";
+import { addTodo, setEditIdx, updateTodo } from "../features/todoSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const TodoForm = () => {
-
     const [input, setInput] = useState({
         task: "",
         priority: "",
     })
-    const { user } = useSelector(state => state.authUser)
-    console.log(user)
+    const { user } = useSelector(state => state.authUser);
+    // const { todoArr } = useSelector(state => state.todo);
+    const { id } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (id) {
+            (async () => {
+                try {
+                    const obj = await getDoc(doc(db, user.uid, id))
+                    setInput(obj.data());
+                } catch (error) {
+                    console.log(error)
+                }
+            })()
+        }
+    }, [id])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addTodo({ input: input, uId: user.uid }))
+        if (id) {
+            dispatch(updateTodo({ uId: user.uid, updateId: id, input: input, }));
+            setInput({
+                task: "",
+                priority: "",
+            })
+            navigate("/");
+
+        } else {
+            dispatch(addTodo({ input: input, uId: user.uid }))
+        }
     }
 
     return (
         <div className="w-full max-w-lg mx-auto mt-8 rounded-lg shadow-lg p-8 bg-white">
-            <h2 className="text-2xl font-bold mb-6 text-primary text-center">Add a New Task</h2>
+            <h2 className="text-2xl font-bold mb-6 text-primary text-center capitalize">{id ? "Update task" : "Add a New Task"}</h2>
             <form className="space-y-5" onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="task" className="block text-sm font-medium text-gray-700 mb-1">Task</label>
@@ -55,7 +81,7 @@ const TodoForm = () => {
                         type="submit"
                         className="w-full bg-primary text-white py-2 rounded-md hover:bg-blue-950 transition duration-200"
                     >
-                        Add Task
+                        {id ? "Update Task" : "Add Task"}
                     </button>
                 </div>
             </form>

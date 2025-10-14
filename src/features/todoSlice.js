@@ -1,14 +1,54 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc, } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 export const addTodo = createAsyncThunk("todo/addTodo", async ({ input, uId }) => {
     try {
-        const res = await addDoc(collection(db, uId), { ...input, createdAt: new Date(), status: "pending" });
-        console.log(res)
+        const res = await addDoc(collection(db, uId), { ...input, status: "pending" });
+        return {
+            id: res.id,
+            ...input,
+        }
     } catch (error) {
         console.log(error)
     }
+})
+
+export const fetchTodo = createAsyncThunk("todo/fetchTodo", async (uId) => {
+    try {
+        const { docs } = await getDocs(collection(db, uId));
+        const data = docs.map((task) => {
+            return {
+                id: task.id,
+                ...task.data(),
+            }
+        })
+        return data;
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const deleteTodo = createAsyncThunk("todo/deleteTodo", async ({ uId, deleteId }) => {
+    try {
+        await deleteDoc(doc(db, uId, deleteId));
+    } catch (error) {
+        console.log(error)
+    }
+    return deleteId;
+})
+
+export const updateTodo = createAsyncThunk("todo/updateTodo", async ({ uId, updateId, input }) => {
+    try {
+        const res = await updateDoc(doc(db, uId, updateId), input);
+        console.log(res);
+    } catch (error) {
+        console.log(error)
+    }
+    return {
+        id: updateId,
+        ...input
+    };
 })
 
 export const todoSlice = createSlice({
@@ -20,8 +60,23 @@ export const todoSlice = createSlice({
 
     },
     extraReducers: (builder) => {
-
+        builder.addCase(addTodo.fulfilled, (state, action) => {
+            state.todoArr.push(action.payload);
+        })
+        builder.addCase(fetchTodo.fulfilled, (state, action) => {
+            state.todoArr = action.payload;
+        })
+        builder.addCase(deleteTodo.fulfilled, (state, action) => {
+            let filteredArr = state.todoArr.filter((task) => task.id !== action.payload)
+            state.todoArr = filteredArr;
+        })
+        builder.addCase(updateTodo.fulfilled, (state, action) => {
+            let idx = state.todoArr.findIndex((task) => task.id === action.payload.id);
+            if (idx !== -1) {
+                state.todoArr[idx] = action.payload;
+            }
+        })
     },
 })
-
+export const { setEditIdx } = todoSlice.actions;
 export default todoSlice.reducer;

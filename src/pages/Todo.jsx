@@ -1,4 +1,3 @@
-import React from 'react'
 import TodoForm from '../components/TodoForm'
 import TodoTable from '../components/TodoTable'
 

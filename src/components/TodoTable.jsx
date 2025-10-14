@@ -1,9 +1,18 @@
-import { useSelector } from "react-redux"
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { deleteTodo, fetchTodo } from "../features/todoSlice";
+import { useNavigate } from "react-router-dom";
 
 const TodoTable = ({ onEdit, onDelete, onComplete }) => {
-
     const { todoArr } = useSelector(state => state.todo);
+    const { user } = useSelector(state => state.authUser);
+    const navigate = useNavigate();
     console.log(todoArr)
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchTodo(user?.uid));
+    }, [])
+
     return (
         <div className="w-full max-w-3xl mx-auto mt-10 rounded-lg shadow-lg bg-white overflow-x-auto">
             <table className="min-w-full table-auto rounded-lg">
@@ -16,7 +25,7 @@ const TodoTable = ({ onEdit, onDelete, onComplete }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {todoArr?.map(todo => (
+                    {todoArr?.map((todo, idx) => (
                         <tr key={todo.id} className={`border-b last:border-none transition hover:bg-blue-50 ${todo.completed ? 'opacity-60' : ''}`}>
                             <td className="p-3">{todo.task}</td>
                             <td className="p-3 text-center">
@@ -45,14 +54,16 @@ const TodoTable = ({ onEdit, onDelete, onComplete }) => {
                                     ✓
                                 </button>
                                 <button
-                                    onClick={() => onEdit(todo.id)}
+                                    onClick={() => {
+                                        navigate(`/${todo.id}`);
+                                    }}
                                     className="px-2 py-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200 rounded"
                                     title="Edit"
                                 >
                                     ✎
                                 </button>
                                 <button
-                                    onClick={() => onDelete(todo.id)}
+                                    onClick={() => dispatch(deleteTodo({ uId: user?.uid, deleteId: todo.id }))}
                                     className="px-2 py-1 bg-red-100 text-red-600 hover:bg-red-200 rounded"
                                     title="Delete"
                                 >
@@ -63,7 +74,7 @@ const TodoTable = ({ onEdit, onDelete, onComplete }) => {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div >
     )
 }
 
