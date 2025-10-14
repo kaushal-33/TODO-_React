@@ -32,15 +32,14 @@ const TodoForm = () => {
         e.preventDefault();
         if (id) {
             dispatch(updateTodo({ uId: user.uid, updateId: id, input: input, }));
-            setInput({
-                task: "",
-                priority: "",
-            })
             navigate("/");
-
         } else {
             dispatch(addTodo({ input: input, uId: user.uid }))
         }
+        setInput({
+            task: "",
+            priority: "",
+        })
     }
 
     return (

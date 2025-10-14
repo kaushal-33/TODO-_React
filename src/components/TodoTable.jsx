@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { deleteTodo, fetchTodo } from "../features/todoSlice";
+import { completeTodo, deleteTodo, fetchTodo } from "../features/todoSlice";
 import { useNavigate } from "react-router-dom";
 
-const TodoTable = ({ onEdit, onDelete, onComplete }) => {
+const TodoTable = () => {
     const { todoArr } = useSelector(state => state.todo);
     const { user } = useSelector(state => state.authUser);
     const navigate = useNavigate();
-    console.log(todoArr)
+    const filteredArr = useMemo(() => {
+       return [...todoArr].sort((a, b) => a.status - b.status)
+    }, [todoArr]);
+    console.log(filteredArr)
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchTodo(user?.uid));
@@ -25,7 +29,7 @@ const TodoTable = ({ onEdit, onDelete, onComplete }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {todoArr?.map((todo, idx) => (
+                    {filteredArr?.map((todo) => (
                         <tr key={todo.id} className={`border-b last:border-none transition hover:bg-blue-50 ${todo.completed ? 'opacity-60' : ''}`}>
                             <td className="p-3">{todo.task}</td>
                             <td className="p-3 text-center">
@@ -38,16 +42,12 @@ const TodoTable = ({ onEdit, onDelete, onComplete }) => {
                                     {todo.priority}
                                 </span>
                             </td>
-                            <td className="p-3 text-center">
-                                {todo.completed ? (
-                                    <span className="text-green-700 font-semibold">Done</span>
-                                ) : (
-                                    <span className="text-orange-500 font-semibold">Pending</span>
-                                )}
+                            <td className="p-3 text-center capitalize">
+                                {todo.status === 0 ? "pending" : "completed"}
                             </td>
                             <td className="p-3 flex items-center justify-center gap-2">
                                 <button
-                                    onClick={() => onComplete(todo.id)}
+                                    onClick={() => dispatch(completeTodo({ uId: user?.uid, updateId: todo.id }))}
                                     className="px-2 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded"
                                     title="Mark as Complete"
                                 >

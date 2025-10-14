@@ -4,7 +4,7 @@ import { db } from "../config/firebase";
 
 export const addTodo = createAsyncThunk("todo/addTodo", async ({ input, uId }) => {
     try {
-        const res = await addDoc(collection(db, uId), { ...input, status: "pending" });
+        const res = await addDoc(collection(db, uId), { ...input, status: 0 });
         return {
             id: res.id,
             ...input,
@@ -41,7 +41,6 @@ export const deleteTodo = createAsyncThunk("todo/deleteTodo", async ({ uId, dele
 export const updateTodo = createAsyncThunk("todo/updateTodo", async ({ uId, updateId, input }) => {
     try {
         const res = await updateDoc(doc(db, uId, updateId), input);
-        console.log(res);
     } catch (error) {
         console.log(error)
     }
@@ -49,6 +48,15 @@ export const updateTodo = createAsyncThunk("todo/updateTodo", async ({ uId, upda
         id: updateId,
         ...input
     };
+})
+
+export const completeTodo = createAsyncThunk("todo/completeTodo", async ({ uId, updateId }) => {
+    try {
+        await updateDoc(doc(db, uId, updateId), { status: 1 });
+    } catch (error) {
+        console.log(error);
+    }
+    return updateId;
 })
 
 export const todoSlice = createSlice({
@@ -61,7 +69,7 @@ export const todoSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(addTodo.fulfilled, (state, action) => {
-            state.todoArr.push(action.payload);
+            state.todoArr.push({ ...action.payload, status: 0 });
         })
         builder.addCase(fetchTodo.fulfilled, (state, action) => {
             state.todoArr = action.payload;
@@ -74,6 +82,12 @@ export const todoSlice = createSlice({
             let idx = state.todoArr.findIndex((task) => task.id === action.payload.id);
             if (idx !== -1) {
                 state.todoArr[idx] = action.payload;
+            }
+        })
+        builder.addCase(completeTodo.fulfilled, (state, action) => {
+            let idx = state.todoArr.findIndex((task) => task.id === action.payload);
+            if (idx !== -1) {
+                state.todoArr[idx] = { ...state.todoArr[idx], status: 1 };
             }
         })
     },
