@@ -1,8 +1,15 @@
 import React from 'react'
+import TodoForm from '../components/TodoForm'
+import TodoTable from '../components/TodoTable'
 
 const Todo = () => {
     return (
-        <div>Todo</div>
+        <main>
+            <section>
+                <TodoForm />
+                <TodoTable />
+            </section>
+        </main>
     )
 }
 
