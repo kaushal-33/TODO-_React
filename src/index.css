@@ -2,10 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    font-family: 'Walter Turncoat';
+}
+
 .bg-login {
     @apply min-h-screen flex items-center justify-center relative;
     background-image: url(../public/images/bg.png);
     background-size: cover;
     background-position: bottom;
     background-repeat: no-repeat;
+}
+
+.form-input {
+    border-bottom: 2px dashed rgb(0, 41, 0);
+}
+
+.submit-btn {
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.stroke {
+    @apply relative;
+    font-weight: 700;
+}
+
+.stroke::after {
+    position: absolute;
+    content: "";
+    background-image: url(../public/images/brushSroke.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 110px;
+    aspect-ratio: 1;
+    top: -40px;
+    left: -15px;
+    z-index: -1;
 }

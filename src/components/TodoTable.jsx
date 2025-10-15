@@ -21,24 +21,23 @@ const TodoTable = () => {
     }, [])
 
     return (
-        <div className="w-full max-w-4xl mx-auto mt-6 sm:mt-8 md:mt-10 px-4 sm:px-6 rounded-lg shadow-lg bg-white overflow-x-auto">
-            <table className="min-w-full table-auto rounded-lg">
-                <thead className="bg-blue-50 text-gray-700">
-                    <tr>
-                        <th className="p-2 sm:p-3 text-left text-xs sm:text-sm md:text-base font-medium">Task</th>
-                        <th className="p-2 sm:p-3 text-center text-xs sm:text-sm md:text-base font-medium">Priority</th>
-                        <th className="p-2 sm:p-3 text-center text-xs sm:text-sm md:text-base font-medium">Status</th>
-                        <th className="p-2 sm:p-3 text-center text-xs sm:text-sm md:text-base font-medium">Actions</th>
+        <div className="w-full max-w-64xl mx-auto mt-6 sm:mt-8 md:mt-10 shadow-lg overflow-x-auto">
+            <table className="min-w-full table-auto">
+                <thead className="text-green-950">
+                    <tr className="">
+                        <th className="p-2 sm:p-3 text-left text-xs sm:text-sm md:text-2xl font-medium"><span className="stroke">Task</span></th>
+                        <th className="p-2 sm:p-3 text-center text-xs sm:text-sm md:text-2xl font-medium"><span className="stroke">priority</span></th>
+                        <th className="p-2 sm:p-3 text-center text-xs sm:text-sm md:text-2xl font-medium"><span className="stroke">status</span></th>
+                        <th className="p-2 sm:p-3 text-center text-xs sm:text-sm md:text-2xl font-medium"><span className="stroke">actions</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredArr?.map((todo) => (
                         <tr
                             key={todo.id}
-                            className={`border-b last:border-none transition-all hover:bg-blue-50 ${todo.completed ? 'opacity-60' : ''
-                                }`}
+                            className={`border-dashed border-green-950 border-b-2 last:border-none transition-all`}
                         >
-                            <td className="p-2 sm:p-3 text-xs sm:text-sm md:text-base truncate max-w-[120px] sm:max-w-[200px] md:max-w-[300px]">
+                            <td className="p-2 sm:p-3 text-xs sm:text-sm md:text-lg truncate max-w-[120px] sm:max-w-[200px] md:max-w-[300px]">
                                 {todo.task}
                             </td>
                             <td className="p-2 sm:p-3 text-center">
@@ -60,7 +59,7 @@ const TodoTable = () => {
                                 {todo.status === 0 && (
                                     <button
                                         onClick={() => dispatch(completeTodo({ uId: user?.uid, updateId: todo.id }))}
-                                        className="p-1 sm:p-2 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-full transition-colors"
+                                        className="p-1 text-blue-700 hover:bg-blue-200 transition-colors"
                                         title="Mark as Complete"
                                         aria-label="Mark task as complete"
                                     >
@@ -70,7 +69,7 @@ const TodoTable = () => {
                                 {todo.status === 0 && (
                                     <button
                                         onClick={() => navigate(`/${todo.id}`)}
-                                        className="p-1 sm:p-2 bg-yellow-100 text-yellow-700 hover:bg-yellow-200 rounded-full transition-colors"
+                                        className="p-1 text-yellow-700 hover:bg-yellow-200 transition-colors"
                                         title="Edit"
                                         aria-label="Edit task"
                                     >
@@ -85,7 +84,7 @@ const TodoTable = () => {
                                         }
                                         dispatch(deleteTodo({ uId: user?.uid, deleteId: todo.id }))
                                     }}
-                                    className="p-1 sm:p-2 bg-red-100 text-red-600 hover:bg-red-200 rounded-full transition-colors"
+                                    className="p-1 text-red-600 hover:bg-red-200 transition-colors"
                                     title="Delete"
                                     aria-label="Delete task"
                                 >

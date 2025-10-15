@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, setEditIdx, updateTodo } from "../features/todoSlice";
+import { addTodo, updateTodo } from "../features/todoSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
@@ -43,11 +43,10 @@ const TodoForm = () => {
     }
 
     return (
-        <div className="w-full">
-            <h2 className="text-2xl font-bold mb-6 text-primary text-center capitalize">{id ? "Update task" : "Add a New Task"}</h2>
-            <form className="flex justify-between" onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="task" className="block text-sm font-medium text-gray-700 mb-1">Task</label>
+        <div className="w-full pt-[100px]">
+            {/* <h2 className="text-2xl font-bold text-white text-center capitalize">{id ? "Update task" : "Add a New Task"}</h2> */}
+            <form className="flex justify-between items-center" onSubmit={handleSubmit}>
+                <div className="w-4/12 form-input">
                     <input
                         type="text"
                         id="task"
@@ -56,29 +55,28 @@ const TodoForm = () => {
                         required
                         value={input.task}
                         onChange={(e) => setInput({ ...input, [e.target.id]: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-950 focus:border-transparent"
+                        className="w-full px-4 py-2  focus:outline-none bg-transparent text-white text-2xl"
                     />
                 </div>
-                <div>
-                    <label htmlFor="priority" className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                <div className="w-4/12 form-input">
                     <select
                         name="priority"
                         id="priority"
                         required
                         value={input.priority}
                         onChange={(e) => setInput({ ...input, [e.target.id]: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-950 focus:border-transparent"
+                        className="w-full px-4 py-2 focus:outline-none bg-transparent text-gray-300 text-2xl"
                     >
-                        <option value="">Select priority</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
+                        <option value="" className="text-green-950" disabled>Select priority</option>
+                        <option value="high" className="text-green-950 bg-red-200">High</option>
+                        <option value="medium" className="text-green-950 bg-yellow-200">Medium</option>
+                        <option value="low" className="text-green-950 bg-green-200">Low</option>
                     </select>
                 </div>
-                <div>
+                <div className="w-3/12">
                     <button
                         type="submit"
-                        className="w-full bg-primary text-white py-2 rounded-md hover:bg-blue-950 transition duration-200"
+                        className="w-full submit-btn text-white py-2 text-2xl bg-green-950 hover:bg-transparent transition duration-200"
                     >
                         {id ? "Update Task" : "Add Task"}
                     </button>
