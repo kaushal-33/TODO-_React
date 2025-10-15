@@ -43,9 +43,9 @@ const TodoForm = () => {
     }
 
     return (
-        <div className="w-full max-w-lg mx-auto mt-8 rounded-lg shadow-lg p-8 bg-white">
+        <div className="w-full">
             <h2 className="text-2xl font-bold mb-6 text-primary text-center capitalize">{id ? "Update task" : "Add a New Task"}</h2>
-            <form className="space-y-5" onSubmit={handleSubmit}>
+            <form className="flex justify-between" onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="task" className="block text-sm font-medium text-gray-700 mb-1">Task</label>
                     <input
