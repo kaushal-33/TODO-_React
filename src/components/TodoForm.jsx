@@ -43,8 +43,7 @@ const TodoForm = () => {
     }
 
     return (
-        <div className="w-full pt-[100px]">
-            {/* <h2 className="text-2xl font-bold text-white text-center capitalize">{id ? "Update task" : "Add a New Task"}</h2> */}
+        <div className="w-full pt-[70px]">
             <form className="flex justify-between items-center" onSubmit={handleSubmit}>
                 <div className="w-4/12 form-input">
                     <input
@@ -76,7 +75,7 @@ const TodoForm = () => {
                 <div className="w-3/12">
                     <button
                         type="submit"
-                        className="w-full submit-btn text-white py-2 text-2xl bg-green-950 hover:bg-transparent transition duration-200"
+                        className="w-full submit-btn text-gray-300 py-2 text-2xl bg-green-950 hover:bg-transparent transition duration-200"
                     >
                         {id ? "Update Task" : "Add Task"}
                     </button>
