@@ -69,8 +69,18 @@
     width: 500px;
     height: 500px;
     rotate: 45deg;
-    box-shadow: 68px 0px 20px #0615333a;    
+    box-shadow: 68px 0px 20px #0615333a;
     top: -20px;
     border-radius: 10px;
     left: 6px;
+}
+
+@media (max-width:768px) {
+    .bg-form::after {
+        display: none;
+    }
+    .stroke::after{
+        width: 90px;
+        aspect-ratio: 1;
+    }
 }

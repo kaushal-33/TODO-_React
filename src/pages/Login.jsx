@@ -1,29 +1,34 @@
 import { useState } from "react";
 import { BsClipboard2Check } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import { signIn } from "../features/authSlice";
-import { TiPin } from "react-icons/ti";
+import { signIn, signUp, signWithGoogle } from "../features/authSlice";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
-
     const [input, setInput] = useState({
         email: "",
         password: "",
+        confirmPassword: "",
     })
-
+    const [isSignup, setIsSignUp] = useState(false);
     const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(signIn(input))
+        if (isSignup) {
+            dispatch(signUp(input))
+            setIsSignUp(false)
+        } else {
+            dispatch(signIn(input))
+        }
     }
 
     return (
-        <div className="bg-login">
-            <div className="w-full max-w-lg bg-form relative p-8">
+        <div className="bg-login overflow-hidden">
+            <div className={`w-full max-w-lg ${!isSignup && "bg-form"} relative p-8`}>
                 {/* App Branding */}
                 <div className="text-center mb-6 relative z-10">
-                    <h1 className="text-3xl font-bold flex items-center justify-center text-primary"><BsClipboard2Check />  <span>To-Do Login</span></h1>
+                    <h1 className="text-3xl font-bold flex items-center justify-center text-primary"><BsClipboard2Check />  <span>To-Do {isSignup ? "SignUp" : "LogIn"}</span></h1>
                     <p className="text-gray-500 mt-1">Stay productive. Log in to manage your tasks.</p>
                 </div>
 
@@ -54,19 +59,38 @@ const Login = () => {
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-950 focus:border-transparent"
                         />
                     </div>
+                    {/* confirm password */}
+                    {isSignup && <div>
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            required
+                            placeholder="••••••••"
+                            value={input.confirmPassword}
+                            onChange={(e) => setInput({ ...input, [e.target.id]: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-950 focus:border-transparent"
+                        />
+                    </div>}
                     <button
                         type="submit"
-                        className="w-full bg-primary text-white py-2 rounded-md hover:bg-blue-950 transition duration-200"
+                        className="w-full bg-primary text-white py-2 rounded-md hover:bg-blue-950 transition-all duration-200"
                     >
-                        Log In
+                        {isSignup ? "SignIn" : "LogIn"}
                     </button>
-                </form>
 
-                {/* Sign up prompt */}
-                <p className="text-center text-sm text-gray-600 mt-6">
-                    Don't have an account?{' '}
-                    <a href="#" className="text-blue-500 hover:underline">Sign up</a>
-                </p>
+                    {!isSignup && <button
+                        type="button"
+                        onClick={() => dispatch(signWithGoogle())}
+                        className="mx-auto flex items-center justify-center border border-primary font-bold gap-2 text-primary py-2 px-4 rounded-md hover:border-blue-950 transition-all duration-200">
+                        Sign in with <FcGoogle className="text-2xl" />
+                    </button>}
+                    {/* Sign up prompt */}
+                    <p className="flex justify-center gap-2 text-sm text-gray-600">
+                        {isSignup ? "Already have an account?" : "Don't have an account?"}
+                        <span onClick={() => setIsSignUp(!isSignup)} className="text-blue-500 hover:underline cursor-pointer">{isSignup ? "SignIn" : "SignUp"}</span>
+                    </p>
+                </form>
             </div>
         </div>
     );

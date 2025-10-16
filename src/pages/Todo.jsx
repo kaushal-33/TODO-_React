@@ -14,7 +14,7 @@ const Todo = () => {
                 <div className="h-full w-10/12 mx-auto">
                     <TodoForm />
                     <TodoTable />
-                    <div className='flex justify-between px-3'>
+                    <div className='flex flex-wrap md:flex-nowrap justify-between items-center px-3'>
                         <h2 className='text-gray-300'> {user.email} </h2>
                         {user.displayName && <div className='text-gray-300'>
                             {user.displayName}'s TODO

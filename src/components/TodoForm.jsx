@@ -44,8 +44,8 @@ const TodoForm = () => {
 
     return (
         <div className="w-full pt-[70px]">
-            <form className="flex justify-between items-center" onSubmit={handleSubmit}>
-                <div className="w-4/12 form-input">
+            <form className="flex flex-wrap md:flex-nowrap justify-between items-center" onSubmit={handleSubmit}>
+                <div className="md:w-4/12 w-full form-input">
                     <input
                         type="text"
                         id="task"
@@ -54,17 +54,17 @@ const TodoForm = () => {
                         required
                         value={input.task}
                         onChange={(e) => setInput({ ...input, [e.target.id]: e.target.value })}
-                        className="w-full px-4 py-2  focus:outline-none bg-transparent text-white text-2xl"
+                        className="w-full px-4 py-2  focus:outline-none bg-transparent text-white md:text-2xl"
                     />
                 </div>
-                <div className="w-4/12 form-input">
+                <div className="md:w-4/12 w-full form-input">
                     <select
                         name="priority"
                         id="priority"
                         required
                         value={input.priority}
                         onChange={(e) => setInput({ ...input, [e.target.id]: e.target.value })}
-                        className="w-full px-4 py-2 focus:outline-none bg-transparent text-gray-300 text-2xl"
+                        className="w-full px-4 py-2 focus:outline-none bg-transparent text-gray-300 md:text-2xl"
                     >
                         <option value="" className="text-green-950" disabled>Select priority</option>
                         <option value="high" className="text-green-950 bg-red-200">High</option>
@@ -72,10 +72,10 @@ const TodoForm = () => {
                         <option value="low" className="text-green-950 bg-green-200">Low</option>
                     </select>
                 </div>
-                <div className="w-3/12">
+                <div className="md:w-3/12 w-full">
                     <button
                         type="submit"
-                        className="w-full submit-btn text-gray-300 py-1 mt-3 text-2xl bg-green-950 hover:bg-transparent transition duration-200"
+                        className="w-full submit-btn text-gray-300 py-1 mt-3 md:text-2xl bg-green-950 hover:bg-transparent transition duration-200"
                     >
                         {id ? "Update Task" : "Add Task"}
                     </button>

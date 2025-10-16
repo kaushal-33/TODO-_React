@@ -37,12 +37,12 @@ const TodoTable = () => {
                             key={todo.id}
                             className={`border-dashed border-green-950 border-b-2 transition-all`}
                         >
-                            <td className={`${todo.status === 1 && "line-through"} p-2 sm:p-3 text-xs sm:text-sm md:text-lg truncate max-w-[120px] sm:max-w-[200px] md:max-w-[300px]`}>
+                            <td className={`${todo.status === 1 && "line-through"} p-2 text-green-950 sm:p-3 font-bold text-xs sm:text-sm md:text-lg truncate max-w-[120px] sm:max-w-[200px] md:max-w-[300px]`}>
                                 {todo.task}
                             </td>
                             <td className="p-2 sm:p-3 text-center">
                                 <span
-                                    className={`font-bold capitalize ${todo.priority === 'high'
+                                    className={`font-bold text-xs md:text-lg capitalize ${todo.priority === 'high'
                                         ? 'text-red-700'
                                         : todo.priority === 'medium'
                                             ? ' text-yellow-600'
@@ -52,7 +52,7 @@ const TodoTable = () => {
                                     {todo.priority}
                                 </span>
                             </td>
-                            <td className="p-2 sm:p-3 text-center text-xs sm:text-sm md:text-base capitalize">
+                            <td className="p-2 sm:p-3 text-center font-bold text-green-950 text-xs sm:text-sm md:text-base capitalize">
                                 {todo.status === 0 ? 'pending' : 'completed'}
                             </td>
                             <td className="p-2 sm:p-3 flex items-center justify-center gap-1 sm:gap-2">
