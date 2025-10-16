@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 
 export const signIn = createAsyncThunk("auth/signIn", async (input) => {
@@ -24,6 +24,14 @@ export const authSlice = createSlice({
     reducers: {
         setUser: (state, action) => {
             state.user = action.payload
+        },
+        logOut: (state) => {
+            try {
+                signOut(auth);
+                state.user = null;
+            } catch (error) {
+                console.log(error)
+            }
         }
     },
     extraReducers: (builder) => {
@@ -32,5 +40,5 @@ export const authSlice = createSlice({
         })
     }
 })
-export const { setUser } = authSlice.actions;
+export const { setUser, logOut } = authSlice.actions;
 export default authSlice.reducer;

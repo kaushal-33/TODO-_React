@@ -62,3 +62,15 @@
 ::-webkit-scrollbar-thumb:hover {
     background: green;
 }
+
+.bg-form::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    rotate: 45deg;
+    box-shadow: 68px 0px 20px #0615333a;    
+    top: -20px;
+    border-radius: 10px;
+    left: 6px;
+}

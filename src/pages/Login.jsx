@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BsClipboard2Check } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { signIn } from "../features/authSlice";
+import { TiPin } from "react-icons/ti";
 
 const Login = () => {
 
@@ -19,16 +20,15 @@ const Login = () => {
 
     return (
         <div className="bg-login">
-            <div className="w-full max-w-lg relative z-10  rounded-lg shadow-lg p-8">
-
+            <div className="w-full max-w-lg bg-form relative p-8">
                 {/* App Branding */}
-                <div className="text-center mb-6">
+                <div className="text-center mb-6 relative z-10">
                     <h1 className="text-3xl font-bold flex items-center justify-center text-primary"><BsClipboard2Check />  <span>To-Do Login</span></h1>
                     <p className="text-gray-500 mt-1">Stay productive. Log in to manage your tasks.</p>
                 </div>
 
                 {/* Login Form */}
-                <form className="space-y-5" onSubmit={handleSubmit}>
+                <form className="space-y-5 relative z-10" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                         <input

@@ -75,7 +75,7 @@ const TodoForm = () => {
                 <div className="w-3/12">
                     <button
                         type="submit"
-                        className="w-full submit-btn text-gray-300 py-2 text-2xl bg-green-950 hover:bg-transparent transition duration-200"
+                        className="w-full submit-btn text-gray-300 py-1 mt-3 text-2xl bg-green-950 hover:bg-transparent transition duration-200"
                     >
                         {id ? "Update Task" : "Add Task"}
                     </button>

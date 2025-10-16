@@ -23,7 +23,7 @@ const TodoTable = () => {
     return (
         <div className="w-full max-w-64xl mx-auto mt-6 sm:mt-8 md:mt-10 overflow-x-auto overflow-y-auto h-[calc(100vh-275px)]">
             <table className="min-w-full table-auto">
-                <thead className="text-green-950 shadow-lg">
+                <thead className="text-green-950 shadow-lg sticky top-0 z-10">
                     <tr className="">
                         <th className="p-2 sm:p-4 text-left text-xs sm:text-sm md:text-2xl"><span className="stroke">Task</span></th>
                         <th className="p-2 sm:p-4 text-center text-xs sm:text-sm md:text-2xl"><span className="stroke">priority</span></th>
@@ -43,10 +43,10 @@ const TodoTable = () => {
                             <td className="p-2 sm:p-3 text-center">
                                 <span
                                     className={`font-bold capitalize ${todo.priority === 'high'
-                                        ? 'text-red-950'
+                                        ? 'text-red-700'
                                         : todo.priority === 'medium'
-                                            ? ' text-yellow-900'
-                                            : ' text-green-950'
+                                            ? ' text-yellow-600'
+                                            : ' text-green-600'
                                         }`}
                                 >
                                     {todo.priority}
