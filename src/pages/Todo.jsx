@@ -9,17 +9,17 @@ const Todo = () => {
     const dispatch = useDispatch();
     return (
         <main>
-            <section className='relative h-screen'>
-                <img src="/images/board.png" alt="board image" className='w-full absolute top-0 left-0 -z-10 h-full' />
-                <div className="h-full w-10/12 mx-auto">
+            <section className='relative h-screen bg-[#08311f] box-shadow '>
+                <img src="/images/board.png" alt="board image" className='w-full absolute top-0 left-0 z-10 h-full' />
+                <div className="h-full w-10/12 relative z-20 mx-auto">
                     <TodoForm />
                     <TodoTable />
-                    <div className='flex flex-wrap md:flex-nowrap justify-between items-center px-3'>
-                        <h2 className='text-gray-300'> {user.email} </h2>
-                        {user.displayName && <div className='text-gray-300'>
+                    <div className='flex flex-wrap md:flex-nowrap justify-between items-center relative z-10 px-3'>
+                        <h2 className='text-gray-400 hidden sm:block'> {user.email} </h2>
+                        {user.displayName && <div className='text-gray-400'>
                             {user.displayName}'s TODO
                         </div >}
-                        <button className='stroke ps-3 pt-1 text-xl font-bold text-green-950' onClick={() => dispatch(logOut())}>
+                        <button className='stroke ps-3 sm:pt-1 text-xl font-bold text-black' onClick={() => dispatch(logOut())}>
                             Exit
                         </button>
                     </div>

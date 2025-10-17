@@ -3,6 +3,7 @@ import { BsClipboard2Check } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { signIn, signUp, signWithGoogle } from "../features/authSlice";
 import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -15,7 +16,16 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (input.email.trim() === "" || input.password.trim() === "") {
+            toast.error("Enter Email or Password...!", { position: "top-left" });
+            return;
+        }
+
         if (isSignup) {
+            if (input.password.trim() !== input.confirmPassword.trim()) {
+                toast.error("Confirm Password doesn't matches...!", { position: "top-left" });
+                return;
+            }
             dispatch(signUp(input))
             setIsSignUp(false)
         } else {

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { completeTodo, deleteTodo, fetchTodo } from "../features/todoSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const TodoTable = () => {
     const { todoArr } = useSelector(state => state.todo);
@@ -21,9 +22,9 @@ const TodoTable = () => {
     }, [])
 
     return (
-        <div className="w-full max-w-64xl mx-auto mt-6 sm:mt-8 md:mt-10 overflow-x-auto overflow-y-auto h-[calc(100vh-275px)]">
+        <div className="w-full max-w-64xl mx-auto mt-6  overflow-x-auto overflow-y-auto h-[calc(100vh-330px)] md:h-[calc(100vh-275px)]">
             <table className="min-w-full table-auto">
-                <thead className="text-green-950 shadow-lg sticky top-0 z-10">
+                <thead className="text-green-950 shadow-lg sticky top-0 z-20">
                     <tr className="">
                         <th className="p-2 sm:p-4 text-left text-xs sm:text-sm md:text-2xl"><span className="stroke">Task</span></th>
                         <th className="p-2 sm:p-4 text-center text-xs sm:text-sm md:text-2xl"><span className="stroke">priority</span></th>
@@ -37,25 +38,20 @@ const TodoTable = () => {
                             key={todo.id}
                             className={`border-dashed border-green-950 border-b-2 transition-all`}
                         >
-                            <td className={`${todo.status === 1 && "line-through"} p-2 text-green-950 sm:p-3 font-bold text-xs sm:text-sm md:text-lg truncate max-w-[120px] sm:max-w-[200px] md:max-w-[300px]`}>
+                            <td className={`${todo.status === 1 && "line-through"} p-2 font-bold text-xs sm:text-sm md:text-lg truncate max-w-[120px] sm:max-w-[200px] md:max-w-[300px]`}>
                                 {todo.task}
                             </td>
-                            <td className="p-2 sm:p-3 text-center">
+                            <td className="p-2 text-center">
                                 <span
-                                    className={`font-bold text-xs md:text-lg capitalize ${todo.priority === 'high'
-                                        ? 'text-red-700'
-                                        : todo.priority === 'medium'
-                                            ? ' text-yellow-600'
-                                            : ' text-green-600'
-                                        }`}
+                                    className={`font-bold text-xs md:text-lg capitalize`}
                                 >
                                     {todo.priority}
                                 </span>
                             </td>
-                            <td className="p-2 sm:p-3 text-center font-bold text-green-950 text-xs sm:text-sm md:text-base capitalize">
+                            <td className="p-2 text-center font-bold text-xs sm:text-sm md:text-base capitalize">
                                 {todo.status === 0 ? 'pending' : 'completed'}
                             </td>
-                            <td className="p-2 sm:p-3 flex items-center justify-center gap-1 sm:gap-2">
+                            <td className="p-2 flex items-center justify-center gap-1 sm:gap-2">
                                 {todo.status === 0 && (
                                     <button
                                         onClick={() => dispatch(completeTodo({ uId: user?.uid, updateId: todo.id }))}
@@ -79,7 +75,7 @@ const TodoTable = () => {
                                 <button
                                     onClick={() => {
                                         if (id) {
-                                            alert("can not delete task while updating...!")
+                                            toast.error("can not delete task while updating...!");
                                             return;
                                         }
                                         dispatch(deleteTodo({ uId: user?.uid, deleteId: todo.id }))

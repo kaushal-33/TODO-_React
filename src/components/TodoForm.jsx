@@ -4,6 +4,7 @@ import { addTodo, updateTodo } from "../features/todoSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import toast from "react-hot-toast";
 
 const TodoForm = () => {
     const [input, setInput] = useState({
@@ -30,11 +31,16 @@ const TodoForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (input.task.trim() === "" || input.priority === "") {
+            toast.error("Enter Task and Priority...!");
+            return;
+        }
         if (id) {
             dispatch(updateTodo({ uId: user.uid, updateId: id, input: input, }));
             navigate("/");
         } else {
             dispatch(addTodo({ input: input, uId: user.uid }))
+            toast.success("Task added...!",{position:"top-right"});
         }
         setInput({
             task: "",
