@@ -12,7 +12,6 @@ const ProtectedRoute = ({ Component }) => {
         dispatch(setIsLoading(true))
         const unSubs = onAuthStateChanged(auth, (user) => {
             if (user) {
-                dispatch(setIsLoading(false))
                 dispatch(setUser({
                     uid: user.uid,
                     email: user.email,
@@ -20,6 +19,7 @@ const ProtectedRoute = ({ Component }) => {
                     photoURL: user.photoURL,
                 }))
             }
+            dispatch(setIsLoading(false));
         })
         return () => unSubs();
     }, [])
